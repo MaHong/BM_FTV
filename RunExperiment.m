@@ -61,11 +61,7 @@ for trial = 1:tiralnum
     while GetSecs - start_time<0.3-frame_duration
     end
     
-    keyisdown = 1;
-    while(keyisdown) % first wait until all keys are released
-        [keyisdown,secs,keycode] = KbCheck;
-        WaitSecs(0.001); % delay to prevent CPU hogging
-    end
+    clearinputkeyqueue;
     
     %%% show the distance judgement part  abc %%%
     learnningproc(w,wRect,ftvparas,ftvparas.distanceArray(ftvparas.TrialType(str2num(ftvparas.condition{trial}(1)))), 3000)
@@ -75,12 +71,8 @@ for trial = 1:tiralnum
     [answer_codeval] = GetFTVJudgementResponse(w,inssetup,pos,keysetup);
     answer_code(trial) = answer_codeval;
     
-    % Get keypress response
-    keyisdown = 1;
-    while(keyisdown) % first wait until all keys are released
-        [keyisdown,secs,keycode] = KbCheck;
-        WaitSecs(0.001); % delay to prevent CPU hogging
-    end
+    %
+    clearinputkeyqueue
     
     % show the bm memory test array
     start_time=GetSecs;
@@ -103,13 +95,16 @@ for trial = 1:tiralnum
         rtime(trial) = rtimeval;
         response_code(trial)=response_codeval;
     end
-
     
+    
+    %clearinputkeyqueue;
+    [keyisdown,secs,keycode] = KbCheck;
     if keycode(keysetup.escapekey)
         rtime(trial) = GetSecs - start_time;
         response_code(trial) = 3;
         break
     end
+    
     if ~((response_code(trial)==str2num(ftvparas.condition{trial}(2))+1)|| (response_code(trial) == 4))
         Screen('DrawTexture', w, inssetup.miss, [], [a-inssetup.missRect(3)/2 b-inssetup.missRect(4)/2 a+inssetup.missRect(3)/2 b+inssetup.missRect(4)/2]);  %%ÅÐ¶Ï·´À¡
         Screen('Flip',w);

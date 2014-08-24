@@ -6,7 +6,7 @@ function BmFTV
 
 try
     % get basic subinfo
-    [subID, name, sex, age] = tinputdialog
+    [subID, name, sex, age] = tinputdialog;
     
     %====================================================
     %  Setup the experiment
