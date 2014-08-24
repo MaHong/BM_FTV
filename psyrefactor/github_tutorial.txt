@@ -1,0 +1,9 @@
+1£© sign up
+
+2) download & install the tortoise git client
+
+3) prepare a new empty folder
+
+4) create a new project in the github's website
+
+5) copy the repository address to the clickboard and paste it to the tortoise client
