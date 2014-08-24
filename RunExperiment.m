@@ -19,9 +19,11 @@ for trial = 1:tiralnum
     InitializeMatlabOpenGL;
     
     % fixation300ms
+    % showfocuscross
     Screen('FillRect', w, [0,0,0]);
     Screen('DrawText',w, '+',a ,b,[255,0,0]);
     Screen('Flip',w);
+    % waitperiod( frame_duration )
     start_time=GetSecs;
     while GetSecs - start_time<0.3-frame_duration
     end
@@ -85,25 +87,23 @@ for trial = 1:tiralnum
     flag=0;
     if(     ( experimenttype==trialtype&&(xor(mod(subID,2)==1,trial>=resttrial)) )||...
             ( experimenttype==experimenttype&&(xor(mod(subID,2)==1,(trial>resttrial&&trial<=resttrial*3)  )) ) )
-        
-        if (xor(mod(subID,2)==1,trial>=resttrial))   %%%%%%%%%%%%%%%%%%%%%%%% 记忆检测   奇数被试 或者 tiral数大于12 满足两个条件中的一个
-            while GetSecs - start_time < 3
-                if str2num(ftvparas.condition{trial}(2))==0     %% bm no change
-                    [rtimeval,response_codeval] = GetBMtestResponse(w,flag,start_time,MovieFrames,act,InputNameIndex,a,b,keysetup);
-                    rtime(trial) = rtimeval;
-                    response_code(trial)=response_codeval;
-                else                                   %% bm change
-                    [rtimeval,response_codeval] = GetBMtestResponse(w,flag,start_time,MovieFrames,act,InputNameIndex,a,b,keysetup);
-                    rtime(trial) = rtimeval;
-                    response_code(trial)=response_codeval;
-                end  %end if
-            end %end -while
-        else   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%unload 条件  基线水平
-            [rtimeval,response_codeval] =  GetBaseResponse(w,start_time,flag,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup);
-            rtime(trial) = rtimeval;
-            response_code(trial)=response_codeval;
-        end
-    end % end 奇偶检测
+        while GetSecs - start_time < 3
+            if str2num(ftvparas.condition{trial}(2))==0     %% bm no change
+                [rtimeval,response_codeval] = GetBMtestResponse(w,flag,start_time,MovieFrames,act,InputNameIndex,a,b,keysetup);
+                rtime(trial) = rtimeval;
+                response_code(trial)=response_codeval;
+            else                                   %% bm change
+                [rtimeval,response_codeval] = GetBMtestResponse(w,flag,start_time,MovieFrames,act,InputNameIndex,a,b,keysetup);
+                rtime(trial) = rtimeval;
+                response_code(trial)=response_codeval;
+            end  %end if
+        end %end -while
+    else   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%unload 条件  基线水平
+        [rtimeval,response_codeval] =  GetBaseResponse(w,start_time,flag,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup);
+        rtime(trial) = rtimeval;
+        response_code(trial)=response_codeval;
+    end
+
     
     if keycode(keysetup.escapekey)
         rtime(trial) = GetSecs - start_time;
