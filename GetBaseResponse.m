@@ -1,7 +1,10 @@
-function [rtimevalue,response_codevalue] =  GetBaseResponse(w,start_time,flag,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup)
+function [rtimevalue,response_codevalue] =  GetBaseResponse(w,trial,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup)
+
+flag = 0;
+start_time = GetSecs;
 while GetSecs - start_time < 3
     if str2num(ftvparas.condition{trial}(1))==0 || str2num(ftvparas.condition{trial}(1))==1 %无论记忆项是否变化
-        for np=1:4
+        for np=1:3
             if flag==1;
                 break;
             end

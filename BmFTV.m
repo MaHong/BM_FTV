@@ -78,7 +78,7 @@ try
     Rcircle=6 * cm2pixel; %the visual degress of the radius of the circle is 4 degree, which equal to 4.88 cm (distance to  the screen 70 cm)
     % positions
     n=1;
-    NumSplit=5;
+    NumSplit=6;
     PerDegree= (360/NumSplit)/180 * pi;%Convert to Pi
     for i=1:NumSplit
         MovieCntre(n,:) = [a+Rcircle*cos(i*PerDegree)   b+Rcircle*sin(i*PerDegree)];
@@ -91,7 +91,7 @@ try
     whitepath = 'movie\white\';
     imgformatsuffix = '*.jpg';
     
-    folderlist = {'leg','jump','run','turn','wave'};
+    folderlist = {'leg','jump','run','turn','wave','geo'};
     whitefilereglist = {};
     whitefolderlist = {};
     inputimgpath = '';

@@ -37,25 +37,31 @@ for trial = 1:tiralnum
     
     % begin the visual display
     position_index = randperm(NumSplit);% Randomized the positions
-    position_presentation = zeros(NumSplit,2);% 5*2 zero vector
-    for i=1:5
+    position_presentation = zeros(NumSplit,2);% 6*2 zero vector
+    for i=1:NumSplit
         position_presentation(i,1) = MovieCntre(position_index(i),1);
         position_presentation(i,2) = MovieCntre(position_index(i),2);
     end
     
     %display the memory array
-    InputNameIndex = randperm(5); %random the stimuli
+    InputNameIndex = randperm(NumSplit); %random the stimuli
     NumMovie=4;
-    for rp=1:NumMovie
+    actionreapettimes = 4;
+    for rp=1:actionreapettimes
         for i=1:MovieFrames
-            for np=1:NumMovie
-                Screen('DrawTexture',w,act{InputNameIndex(np)}{i},[],[position_presentation(InputNameIndex(np),1)-110 position_presentation(InputNameIndex(np),2)-90 position_presentation(InputNameIndex(np),1)+110 position_presentation(InputNameIndex(np),2)+90]);
+            for np=1:NumMovie                
+                Screen('DrawTexture',w,act{InputNameIndex(np)}{i},[],...
+                    [position_presentation(InputNameIndex(np),1)-110 ...
+                     position_presentation(InputNameIndex(np),2)-90 ...
+                     position_presentation(InputNameIndex(np),1)+110 ...
+                     position_presentation(InputNameIndex(np),2)+90]);
             end
             Screen('Flip',w);
         end
     end
     
     % Show the blank interval between memory and test array
+    % TODO wrap the code into a showblackscreen( seconds )
     Screen('Flip',w);
     start_time=GetSecs;
     while GetSecs - start_time<0.3-frame_duration
@@ -76,24 +82,33 @@ for trial = 1:tiralnum
     
     % show the bm memory test array
     start_time=GetSecs;
-    flag=0;
+
     if(     ( experimenttype==trialtype&&(xor(mod(subID,2)==1,trial>=resttrial)) )||...
             ( experimenttype==experimenttype&&(xor(mod(subID,2)==1,(trial>resttrial&&trial<=resttrial*3)  )) ) )
         while GetSecs - start_time < 3
             if str2num(ftvparas.condition{trial}(2))==0     %% bm no change
-                [rtimeval,response_codeval] = GetBMtestResponse(w,flag,start_time,MovieFrames,act,InputNameIndex,a,b,keysetup);
+                [rtimeval,response_codeval,terminateflag] = GetBMtestResponse(w,MovieFrames,act,InputNameIndex,a,b,keysetup,1);
                 rtime(trial) = rtimeval;
                 response_code(trial)=response_codeval;
+                if terminateflag==1
+                    break;
+                end
             else                                   %% bm change
-                [rtimeval,response_codeval] = GetBMtestResponse(w,flag,start_time,MovieFrames,act,InputNameIndex,a,b,keysetup);
+                [rtimeval,response_codeval] = GetBMtestResponse(w,MovieFrames,act,InputNameIndex,a,b,keysetup,(NumMovie+1) );
                 rtime(trial) = rtimeval;
                 response_code(trial)=response_codeval;
+                if terminateflag==1
+                    break;
+                end
             end  %end if
         end %end -while
     else   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%unload 条件  基线水平
-        [rtimeval,response_codeval] =  GetBaseResponse(w,start_time,flag,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup);
+        [rtimeval,response_codeval,terminateflag] =  GetBaseResponse(w,trial,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup);
         rtime(trial) = rtimeval;
         response_code(trial)=response_codeval;
+        if terminateflag==1
+            break;
+        end
     end
     
     
