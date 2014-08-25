@@ -55,7 +55,7 @@ for trial = 1:tiralnum
     
     clearinputkeyqueue;
     % show the distance judgement part 
-    learnningproc(w,wRect,ftvparas,ftvparas.distanceArray(ftvparas.TrialType(str2num(ftvparas.condition{trial}(1)))), 3000)
+    DisplayPLWalker(w,wRect,ftvparas,ftvparas.distanceArray(ftvparas.TrialType(str2num(ftvparas.condition{trial}(1)))), 3000)
     % get the FTV/W judgement
     [answer_codeval] = GetFTVJudgementResponse(w,inssetup,pos,keysetup);
     answer_code(trial) = answer_codeval;

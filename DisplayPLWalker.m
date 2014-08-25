@@ -1,4 +1,4 @@
-function learnningproc(w,wRect,ftvparas, scale, perspectdis)
+function DisplayPLWalker(w,wRect,ftvparas, scale, perspectdis)
     % away 
     % @scale = 1
     % @perspectdis= 3000

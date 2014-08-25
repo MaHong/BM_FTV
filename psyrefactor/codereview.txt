@@ -270,9 +270,31 @@ end
   按J键，则回答错误response_code(j)=1
   response_code(j)==str2num(condition{j}(3))+1
   1==1+1，则acc=0
-  
 
-  
+
+=====================================================================  
+
+8 报错??? Index exceeds matrix dimensions.
+    for j = 1:length(ftvparas.condition)
+        fprintf(fid,'%s\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%4.4f\t%3.0f\t%3.0f\t%3.0f\n',...
+        name,subID,sex,age,j,str2num(ftvparas.condition{j}(2)),response_code(j)==str2num(ftvparas.condition{j}(2))+1,...
+        rtime(j),ftvparas.TrialType(str2num(ftvparas.condition{j}(1))),answer_code(j),tasktype(j));
+    end
+
+    ftvparas.condition 已为确定数字，但是trial 是一个累加的数，所以会报上面的错。
+    ftvparas = tinputparameterfun('walking.txt');
+    ParamStruct.condition = condition;
+    condition = movie_series;
+
+    function output = movie_series
+    code_series = {'10','11','20','21','30','31'};
+    code_series = repmat(code_series,1,32);
+    output = GenerateSequence(code_series,48);
+    end
+
+
+=====================================================================  
+
 
   
 

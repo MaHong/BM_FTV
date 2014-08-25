@@ -122,27 +122,16 @@ try
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     
     % Ñ§Ï°FTV/FA
-    learnningproc(w,wRect,ftvparas,1,3000);
+    DisplayPLWalker(w,wRect,ftvparas,1,3000);
     PushImages(w,pos,inssetup.FW);
-    while(1)
-        [keyisdown,secs,keycode] = KbCheck;
-        if keycode(keysetup.back)
-            break
-        end
-    end
-    learnningproc(w,wRect,ftvparas,20,4000);
+    ResponseforPLJudgment(keysetup.back);
+    DisplayPLWalker(w,wRect,ftvparas,20,4000);
     PushImages(w,pos,inssetup.FTV);
-    while(1)
-        [keyisdown,secs,keycode] = KbCheck;
-        if keycode(keysetup.forward)
-            break
-        end
-    end   
+    ResponseforPLJudgment(keysetup.forward);
+    %Á·Ï°½×¶Î
     PushImages(w,pos,inssetup.practiceStart);
     WaitSecs(1.5);
     StimulasInterval (w,1,frame_duration);
-    
-    %Á·Ï°½×¶Î
 %     RunExperiment(w,wRect,24,frame_duration,...
 %     NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
 %     keysetup,subID,MovieFrames,a,b,12,1,inssetup.practiceOver);
