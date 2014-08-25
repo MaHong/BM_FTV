@@ -75,7 +75,9 @@ try
     
     % coordinates
     cm2pixel = 30; %convert centimeter to pixel
-    Rcircle=6 * cm2pixel; %the visual degress of the radius of the circle is 4 degree, which equal to 4.88 cm (distance to  the screen 70 cm)
+    % Rcircle=6 * cm2pixel; %the visual degress of the radius of the circle is 4 degree, which equal to 4.88 cm (distance to  the screen 70 cm)
+    spaceofstimulus = 8;
+    Rcircle=spaceofstimulus * cm2pixel;
     % positions
     n=1;
     NumSplit=6;
