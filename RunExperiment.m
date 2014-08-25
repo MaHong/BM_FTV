@@ -15,7 +15,7 @@ trialtype = 1;
 experimenttype = 2;
 %@image = inssetup.over
 
-task = zeros(tiralnum);
+tasktype = zeros(tiralnum);
 for trial = 1:tiralnum
     InitializeMatlabOpenGL;
     
@@ -123,8 +123,7 @@ for trial = 1:tiralnum
         checkcondition = ( experimenttype==trialtype&&(mod(subID,2)==1) )||...
             ( experimenttype==experimenttype&&(xor(mod(subID,2)==1, trial==144)) ) ;
         ShowInstruction(w,inssetup.basetwo,inssetup.starttwo,pos,checkcondition );
-        
-        
+ 
     end
 end
 

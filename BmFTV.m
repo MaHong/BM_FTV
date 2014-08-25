@@ -8,9 +8,7 @@ try
     % get basic subinfo
     [subID, name, sex, age] = tinputdialog;
     
-    %====================================================
     %  Setup the experiment
-    %=====================================================
     clear InputName MovieData
         
     %Screen setup %
@@ -28,7 +26,7 @@ try
     MovieFrames =60;
     [a,b]=WindowCenter(w);
     
-    %3D设置
+    %3D set up
     Screen('BeginOpenGL',w);
     ar=RectHeight(wRect)/RectWidth(wRect);%屏幕高宽比
     % Set viewport properly:
@@ -66,9 +64,7 @@ try
     % handling will screw up in funny ways...
     glClear;
     Screen('EndOpenGL', w);
-    
-    
-    
+        
     % Screen priority
     priorityLevel=MaxPriority(w);
     Priority(priorityLevel);
@@ -86,13 +82,12 @@ try
         MovieCntre(n,:) = [a+Rcircle*cos(i*PerDegree)   b+Rcircle*sin(i*PerDegree)];
         n=n+1;
     end
-    
-    
+    keysetup = tkeyboardsetup;
+    inssetup = tinstructionsetup(w);
     
     %input file==================================
     whitepath = 'movie\white\';
     imgformatsuffix = '*.jpg';
-    
     folderlist = {'leg','jump','run','turn','wave','geo'};
     whitefilereglist = {};
     whitefolderlist = {};
@@ -111,57 +106,51 @@ try
         [whiteactionlist{i},whiteactionfilm{i}]...
             =tinputimgs(w,whitefilereglist{i},whitefolderlist{i});
     end
-    %End input file==================================  
-    
-    
-    %% make sprites
+            
+    % make sprites
     act=whiteactionlist;
     
     % 读入FTV生物运动数据
     ftvparas = tinputparameterfun('walking.txt');
-
-    %========================================
-    % keyboard setup %
-    keysetup = tkeyboardsetup;
+    %End input file================================== 
     
-    %instruction setup
-    inssetup = tinstructionsetup(w);
-    
-    %=====================================================
-    % Run experiment
-    %=====================================================
-    
-    HideCursor;
-    pos = [(a-inssetup.startRect(3)/2) b-inssetup.startRect(4)/2 a+inssetup.startRect(3)/2 b+inssetup.startRect(4)/2];
+    % Run experiment================================== 
+     HideCursor;
+     pos = [(a-inssetup.startRect(3)/2) b-inssetup.startRect(4)/2 a+inssetup.startRect(3)/2 b+inssetup.startRect(4)/2];
     
     %练习阶段指导语
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     
-    % 学习阶段
+    % 学习FTV/FA
     learnningproc(w,wRect,ftvparas,1,3000);
     PushImages(w,pos,inssetup.FW);
-    KbWait;
+    while(1)
+        [keyisdown,secs,keycode] = KbCheck;
+        if keycode(keysetup.back)
+            break
+        end
+    end
     learnningproc(w,wRect,ftvparas,20,4000);
     PushImages(w,pos,inssetup.FTV);
-    KbWait;
-    
-    % Practice instructions
+    while(1)
+        [keyisdown,secs,keycode] = KbCheck;
+        if keycode(keysetup.forward)
+            break
+        end
+    end   
     PushImages(w,pos,inssetup.practiceStart);
     WaitSecs(1.5);
-    
     StimulasInterval (w,1,frame_duration);
     
     %练习阶段
-    RunExperiment(w,wRect,24,frame_duration,...
-    NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
-    keysetup,subID,MovieFrames,a,b,12,1,inssetup.practiceOver);
-
+%     RunExperiment(w,wRect,24,frame_duration,...
+%     NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
+%     keysetup,subID,MovieFrames,a,b,12,1,inssetup.practiceOver);
     
     %正式实验指导语
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     
     %正式实验
-   
     [answer_code,rtime,response_code,tasktype] = RunExperiment(w,wRect,length(ftvparas.condition),frame_duration,...
     NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
     keysetup,subID,MovieFrames,a,b,48,2,inssetup.over);
@@ -178,9 +167,9 @@ try
     fprintf(fid,'%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n',...
         'Name','subID','Sex','Age','Trial','Change','Acc',...
         'RT','distance','FTV','Tasktype');
-    for j = 1:length(ftvparas.condition)
-        fprintf(fid,'%s\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%4.0f\t%3   .0f\t%3.0f\t%3.0f\n',...
-        name,subID,sex,age,j,str2num(ftvparas.condition{j}(3)),response_code(j)==str2num(ftvparas.condition{j}(3))+1,...
+    for j = 1:length(response_code)
+        fprintf(fid,'%s\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%4.4f\t%3.0f\t%3.0f\t%3.0f\n',...
+        name,subID,sex,age,j,str2num(ftvparas.condition{j}(2)),response_code(j)==str2num(ftvparas.condition{j}(2))+1,...
         rtime(j),ftvparas.TrialType(str2num(ftvparas.condition{j}(1))),answer_code(j),tasktype(j));
     end
     fclose(fid);
