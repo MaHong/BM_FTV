@@ -135,29 +135,19 @@ try
     %Á·Ï°½×¶ÎÖ¸µ¼Óï
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     
-    % Ñ§Ï°½×¶Î Ô¶Àë
+    % Ñ§Ï°½×¶Î
     learnningproc(w,wRect,ftvparas,1,3000);
-    Screen('DrawTexture', w, inssetup.FW, [], pos);
-    Screen('Flip',w);
+    PushImages(w,pos,inssetup.FW);
     KbWait;
-    
-    % Ñ§Ï°½×¶Î Ç÷½ü
     learnningproc(w,wRect,ftvparas,20,4000);
-    Screen('DrawTexture', w, inssetup.FTV, [], pos);
-    Screen('Flip',w);
+    PushImages(w,pos,inssetup.FTV);
     KbWait;
     
     % Practice instructions
-    Screen('DrawTexture', w, inssetup.practiceStart, [], pos);
-    Screen('Flip',w);
+    PushImages(w,pos,inssetup.practiceStart);
     WaitSecs(1.5);
     
-    % Blank screen 1000ms
-    Screen('Flip',w);
-    start_time = GetSecs;
-    while GetSecs - start_time<1-frame_duration
-    end
-
+    StimulasInterval (w,1,frame_duration);
     
     %Á·Ï°½×¶Î
     RunExperiment(w,wRect,24,frame_duration,...
