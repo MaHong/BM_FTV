@@ -161,8 +161,8 @@ try
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     
     %正式实验
-    task = zeros(192);
-    [answer_code,rtime,response_code] = RunExperiment(w,wRect,length(ftvparas.condition),frame_duration,...
+   
+    [answer_code,rtime,response_code,tasktype] = RunExperiment(w,wRect,length(ftvparas.condition),frame_duration,...
     NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
     keysetup,subID,MovieFrames,a,b,48,2,inssetup.over);
 
@@ -175,10 +175,13 @@ try
     
     %输出结果
     fid = fopen(['results/' name '_BM_FTV_formal.txt'],'w');
-    fprintf(fid,'%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n','Name','Id','Sex','Age','Trial','Setsize','Change','Acc','RT','distance','FTV','Condition');
+    fprintf(fid,'%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n',...
+        'Name','subID','Sex','Age','Trial','Change','Acc',...
+        'RT','distance','FTV','Tasktype');
     for j = 1:length(ftvparas.condition)
-        fprintf(fid,'%s\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%4.3f\t%3.3f\t%4.0f\t%3.0f\t%3.0f\n',...
-            name,subID,sex,age,j,str2num(ftvparas.condition{j}(1)),str2num(ftvparas.condition{j}(3)),response_code(j)==str2num(ftvparas.condition{j}(3))+1,rtime(j),ftvparas.TrialType(str2num(ftvparas.condition{j}(2))),answer_code(j),task(j));
+        fprintf(fid,'%s\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%3.0f\t%4.3f\t%3.3f\t%4.0f\t%3.0f\t%3.0f\n',...
+        name,subID,sex,age,j,str2num(ftvparas.condition{j}(3)),response_code(j)==str2num(ftvparas.condition{j}(3))+1,...
+        rtime(j),ftvparas.TrialType(str2num(ftvparas.condition{j}(1))),answer_code(j),tasktype(j));
     end
     fclose(fid);
     clear all

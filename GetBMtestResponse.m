@@ -49,7 +49,7 @@ for np=1:actionsreaptimes
             break
         end
         rtimevalue = GetSecs - start_time;
-        response_codevalue = 3;%被试没有按键
+        response_codevalue = 5;%被试没有按键
         
     end
     

@@ -259,5 +259,20 @@ end
 6 writing code is for future review and human read
   编写代码是为了人类阅读！ 
 
+7 如何计算ACC
+  公式：response_code(j)==str2num(condition{j}(3))+1
+  
+  对于bm change 条件 condition{j}(3)=1，
+  按F键,则回答正确response_code(j)=2
+  response_code(j)==str2num(condition{j}(3))+1
+  2==1+1，则acc=1
+  
+  按J键，则回答错误response_code(j)=1
+  response_code(j)==str2num(condition{j}(3))+1
+  1==1+1，则acc=0
+  
 
+  
+
+  
 

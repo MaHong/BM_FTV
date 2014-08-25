@@ -1,4 +1,4 @@
-function [answer_code,rtime,response_code]= RunExperiment(w,wRect,tiralnum,frame_duration,...
+function [answer_code,rtime,response_code,tasktype]= RunExperiment(w,wRect,tiralnum,frame_duration,...
     NumSplit,MovieCntre,act,ftvparas,inssetup,pos,keysetup,...
     subID,MovieFrames,a,b,resttrial,experimenttype,image)
 % practice
@@ -15,6 +15,7 @@ trialtype = 1;
 experimenttype = 2;
 %@image = inssetup.over
 
+task = zeros(tiralnum);
 for trial = 1:tiralnum
     InitializeMatlabOpenGL;
     
@@ -23,7 +24,6 @@ for trial = 1:tiralnum
     Screen('FillRect', w, [0,0,0]);
     Screen('DrawText',w, '+',a ,b,[255,0,0]);
     Screen('Flip',w);
-    
     StimulasInterval (w,0.3,frame_duration);
     
     % begin the visual display
@@ -52,21 +52,18 @@ for trial = 1:tiralnum
     end
     
     StimulasInterval (w,0.3,frame_duration);
+    
     clearinputkeyqueue;
-    
-    %%% show the distance judgement part  abc %%%
+    % show the distance judgement part 
     learnningproc(w,wRect,ftvparas,ftvparas.distanceArray(ftvparas.TrialType(str2num(ftvparas.condition{trial}(1)))), 3000)
-    
     % get the FTV/W judgement
     [answer_codeval] = GetFTVJudgementResponse(w,inssetup,pos,keysetup);
     answer_code(trial) = answer_codeval;
     
     clearinputkeyqueue;
-    
     % show the bm memory test array
     start_time=GetSecs;
-    
-    if(     ( experimenttype==trialtype&&(xor(mod(subID,2)==1,trial>=resttrial)) )||...
+        if(     ( experimenttype==trialtype&&(xor(mod(subID,2)==1,trial>=resttrial)) )||...
             ( experimenttype==experimenttype&&(xor(mod(subID,2)==1,(trial>resttrial&&trial<=resttrial*3)  )) ) )
         while GetSecs - start_time < 3
             if str2num(ftvparas.condition{trial}(2))==0     %% bm no change
@@ -85,6 +82,7 @@ for trial = 1:tiralnum
                 end
             end  %end if
         end %end -while
+        tasktype(trial) = 1;%记忆任务
     else   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%unload 条件  基线水平
         while GetSecs - start_time < 3
             [rtimeval,response_codeval,terminateflag] =  GetBaseResponse(w,trial,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup);
@@ -94,6 +92,7 @@ for trial = 1:tiralnum
                 break;
             end
         end
+         tasktype(trial) = 0;%控制条件
     end
     
     [keyisdown,secs,keycode] = KbCheck;
@@ -103,7 +102,7 @@ for trial = 1:tiralnum
         break
     end
     
-    if ~((response_code(trial)==str2num(ftvparas.condition{trial}(2))+1)|| (response_code(trial) == 4))
+    if ~((response_code(trial)==str2num(ftvparas.condition{trial}(2))+1)|| (response_code(trial) == 5))
         PushImages(w,pos,inssetup.miss);
         WaitSecs(0.2);
     end

@@ -32,7 +32,7 @@ if str2num(ftvparas.condition{trial}(2))==0 || str2num(ftvparas.condition{trial}
                 break
             end
             rtimevalue = GetSecs - start_time;
-            response_codevalue = 3;%被试没有按键
+            response_codevalue = 5;%被试没有按键
         end
         
     end
