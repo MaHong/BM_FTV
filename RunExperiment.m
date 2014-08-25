@@ -40,32 +40,32 @@ for trial = 1:tiralnum
     actionreapettimes = 4;
     for rp=1:actionreapettimes
         for i=1:MovieFrames
-            for np=1:NumMovie                
+            for np=1:NumMovie
                 Screen('DrawTexture',w,act{InputNameIndex(np)}{i},[],...
                     [position_presentation(InputNameIndex(np),1)-110 ...
-                     position_presentation(InputNameIndex(np),2)-90 ...
-                     position_presentation(InputNameIndex(np),1)+110 ...
-                     position_presentation(InputNameIndex(np),2)+90]);
+                    position_presentation(InputNameIndex(np),2)-90 ...
+                    position_presentation(InputNameIndex(np),1)+110 ...
+                    position_presentation(InputNameIndex(np),2)+90]);
             end
             Screen('Flip',w);
         end
     end
-
+    
     StimulasInterval (w,0.3,frame_duration);
     clearinputkeyqueue;
     
     %%% show the distance judgement part  abc %%%
     learnningproc(w,wRect,ftvparas,ftvparas.distanceArray(ftvparas.TrialType(str2num(ftvparas.condition{trial}(1)))), 3000)
-        
+    
     % get the FTV/W judgement
     [answer_codeval] = GetFTVJudgementResponse(w,inssetup,pos,keysetup);
     answer_code(trial) = answer_codeval;
-
+    
     clearinputkeyqueue;
     
     % show the bm memory test array
     start_time=GetSecs;
-
+    
     if(     ( experimenttype==trialtype&&(xor(mod(subID,2)==1,trial>=resttrial)) )||...
             ( experimenttype==experimenttype&&(xor(mod(subID,2)==1,(trial>resttrial&&trial<=resttrial*3)  )) ) )
         while GetSecs - start_time < 3
@@ -86,14 +86,16 @@ for trial = 1:tiralnum
             end  %end if
         end %end -while
     else   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%unload 条件  基线水平
-        [rtimeval,response_codeval,terminateflag] =  GetBaseResponse(w,trial,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup);
-        rtime(trial) = rtimeval;
-        response_code(trial)=response_codeval;
-        if terminateflag==1
-            break;
+        while GetSecs - start_time < 3
+            [rtimeval,response_codeval,terminateflag] =  GetBaseResponse(w,trial,ftvparas,act,MovieFrames,InputNameIndex,a,b,keysetup);
+            rtime(trial) = rtimeval;
+            response_code(trial)=response_codeval;
+            if terminateflag==1
+                break;
+            end
         end
     end
-
+    
     [keyisdown,secs,keycode] = KbCheck;
     if keycode(keysetup.escapekey)
         rtime(trial) = GetSecs - start_time;
@@ -102,7 +104,7 @@ for trial = 1:tiralnum
     end
     
     if ~((response_code(trial)==str2num(ftvparas.condition{trial}(2))+1)|| (response_code(trial) == 4))
-        PushImages(w,[a-inssetup.missRect(3)/2 b-inssetup.missRect(4)/2 a+inssetup.missRect(3)/2 b+inssetup.missRect(4)/2],inssetup.miss);
+        PushImages(w,pos,inssetup.miss);
         WaitSecs(0.2);
     end
     Screen('Flip',w);
@@ -113,8 +115,6 @@ for trial = 1:tiralnum
     %rest
     if (mod(trial,resttrial)==0 && trial~=tiralnum)
         PushImages(w,pos,inssetup.rest);
-%         Screen('DrawTexture', w, inssetup.rest, [], pos);
-%         Screen('Flip',w);
         clearinputkeyqueue;
         KbWait;
         WaitSecs(2);
@@ -129,6 +129,7 @@ for trial = 1:tiralnum
     end
 end
 
+clearinputkeyqueue;
 PushImages(w,pos,image)
 KbWait;
 Screen('Flip',w);
