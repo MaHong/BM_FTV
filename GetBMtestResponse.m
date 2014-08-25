@@ -31,21 +31,21 @@ for np=1:actionsreaptimes
             flag=1;
             rtimevalue = GetSecs - start_time;
             response_codevalue = 3;%±»ÊÔ°´¼üÍË³ö
-            'print escape'
+            %'print escape'
             break
         end
         if keycode(keysetup.F)
             flag=1;
             rtimevalue = GetSecs - start_time;
             response_codevalue = 2;
-            'print F'
+            %'print F'
             break
         end
         if keycode(keysetup.J)
             flag=1;
             rtimevalue = GetSecs - start_time;
             response_codevalue = 1;
-            'print J'
+            %'print J'
             break
         end
         rtimevalue = GetSecs - start_time;

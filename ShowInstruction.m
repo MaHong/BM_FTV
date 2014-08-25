@@ -13,17 +13,15 @@ function ShowInstruction(w,instructimg0,instructimg1,pos,checkcondition)
 
 
  if(checkcondition)  %奇数被试
-        Screen('TextSize', w, 40);
-        Screen('DrawTexture', w,instructimg0, [], pos);
-        Screen('Flip',w);
+        %Screen('TextSize', w, 40);
+        PushImages(w,pos,instructimg0)
         KbWait;
         Screen('Flip',w);
         WaitSecs(2);
         
     else              %偶数被试
-        Screen('TextSize', w, 40);
-        Screen('DrawTexture', w,instructimg1,[], pos);
-        Screen('Flip',w);
+        %Screen('TextSize', w, 40);
+        PushImages(w,pos,instructimg1)
         KbWait;
         Screen('Flip',w);
         WaitSecs(2);

@@ -29,6 +29,6 @@ function InstructionSet = tinstructionsetup(w)
     InstructionSet.startRect = Screen('Rect', InstructionSet.start);
     InstructionSet.restRect = Screen('Rect', InstructionSet.rest);
     InstructionSet.missRect = Screen('Rect', InstructionSet.miss);
-    
+    InstructionSet.overRect = Screen('Rect', InstructionSet.over);
  
 end
