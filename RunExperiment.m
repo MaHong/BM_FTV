@@ -102,7 +102,7 @@ for trial = 1:tiralnum
         break
     end
     
-    if ~((response_code(trial)==str2num(ftvparas.condition{trial}(2))+1)|| (response_code(trial) == 5))
+    if ~(  (response_code(trial)==str2num(ftvparas.condition{trial}(2))+1)|| (response_code(trial) == 4)  )
         PushImages(w,pos,inssetup.miss);
         WaitSecs(0.2);
     end
