@@ -1,0 +1,20 @@
+1£© how to locate the index exceeding 
+
+                '*inputnameindex(np)'
+                InputNameIndex(np)
+                '*'
+                act{InputNameIndex(np)}{i}
+                position_presentation(InputNameIndex(np),1)
+                position_presentation(InputNameIndex(np),2)
+
+
+
+                Screen('DrawTexture',w,act{InputNameIndex(np)}{i},[],...
+                    [position_presentation(InputNameIndex(np),1)-110 ...
+                     position_presentation(InputNameIndex(np),2)-90 ...
+                     position_presentation(InputNameIndex(np),1)+110 ...
+                     position_presentation(InputNameIndex(np),2)+90]);
+
+
+
+========================================================================

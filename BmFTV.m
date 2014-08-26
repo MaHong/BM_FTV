@@ -9,13 +9,12 @@ try
     AssertOpenGL;
     InitializeMatlabOpenGL;
     PsychImaging('PrepareConfiguration');
-    
     Screen('Preference', 'SkipSyncTests', 1);
     screenNumber=max(Screen('Screens'));
     [w, wRect] = PsychImaging('OpenWindow', screenNumber, 0);
     %[w, wRect]=Screen('OpenWindow',screenNumber, 0,[],32,2);
     frame_duration = Screen('GetFlipInterval',w);
-    frame = round(1/frame_duration);
+    %frame = round(1/frame_duration);
     Screen(w,'BlendFunction',GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     MovieFrames =60;
     [a,b]=WindowCenter(w);
@@ -79,25 +78,24 @@ try
     %练习阶段指导语
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     
-%     学习FTV/FA
-%     DisplayPLWalker(w,wRect,ftvparas,1,3000);
-%     PushImages(w,pos,inssetup.FW);
-%     ResponseforPLJudgment(keysetup.back);
-%     DisplayPLWalker(w,wRect,ftvparas,20,4000);
-%     PushImages(w,pos,inssetup.FTV);
-%     ResponseforPLJudgment(keysetup.forward);
-%     练习阶段
-%     PushImages(w,pos,inssetup.practiceStart);
-%     WaitSecs(1.5);
-%     StimulasInterval (w,1,frame_duration);
-%     RunExperiment(w,wRect,24,frame_duration,...
-%     NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
-%     keysetup,subID,MovieFrames,a,b,12,1,inssetup.practiceOver);
+    %学习FTV/FA
+    DisplayPLWalker(w,wRect,ftvparas,1,3000);
+    PushImages(w,pos,inssetup.FW);
+    ResponseforPLJudgment(keysetup.back);
+    DisplayPLWalker(w,wRect,ftvparas,20,4000);
+    PushImages(w,pos,inssetup.FTV);
+    ResponseforPLJudgment(keysetup.forward);
     
-    %正式实验指导语
-    ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
-    
+    %练习阶段
+    PushImages(w,pos,inssetup.practiceStart);
+    WaitSecs(1.5);
+    StimulasInterval (w,1,frame_duration);
+    RunExperiment(w,wRect,24,frame_duration,...
+    NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
+    keysetup,subID,MovieFrames,a,b,12,1,inssetup.practiceOver);
+
     %正式实验
+    ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     [answer_code,rtime,response_code,tasktype] = RunExperiment(w,wRect,length(ftvparas.condition),frame_duration,...
     NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
     keysetup,subID,MovieFrames,a,b,48,2,inssetup.over);

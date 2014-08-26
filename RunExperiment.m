@@ -20,13 +20,12 @@ for trial = 1:tiralnum
     InitializeMatlabOpenGL;
     
     % fixation300ms
-    % showfocuscross
     Screen('FillRect', w, [0,0,0]);
     Screen('DrawText',w, '+',a ,b,[255,0,0]);
     Screen('Flip',w);
     StimulasInterval (w,0.3,frame_duration);
     
-    % begin the visual display
+    % define the position of the memory display
     position_index = randperm(NumSplit);% Randomized the positions
     position_presentation = zeros(NumSplit,2);% 6*2 zero vector
     for i=1:NumSplit
