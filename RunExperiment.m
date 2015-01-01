@@ -1,5 +1,5 @@
 function [answer_code,rtime,response_code,tasktype]= RunExperiment(w,wRect,tiralnum,frame_duration,...
-    NumSplit,MovieCntre,act,ftvparas,inssetup,pos,keysetup,...
+    NumTotalMoivePool,NumSelectedMovie,MovieCntre,act,ftvparas,inssetup,pos,keysetup,...
     subID,MovieFrames,a,b,resttrial,experimenttype,image)
 % practice
 %@tiralnum = 24
@@ -26,25 +26,26 @@ for trial = 1:tiralnum
     StimulasInterval (w,0.3,frame_duration);
     
     % define the position of the memory display
-    position_index = randperm(NumSplit);% Randomized the positions
-    position_presentation = zeros(NumSplit,2);% 6*2 zero vector
-    for i=1:NumSplit
+    position_index = randperm(NumSelectedMovie);% Randomized the positions
+    position_presentation = zeros(NumSelectedMovie,2);% 5*2 zero vector
+    for i=1:NumSelectedMovie
         position_presentation(i,1) = MovieCntre(position_index(i),1);
         position_presentation(i,2) = MovieCntre(position_index(i),2);
     end
     
     %display the memory array
-    InputNameIndex = randperm(NumSplit); %random the stimuli
-    NumMovie=4;
-    actionreapettimes = 4;
+    InputNameIndex = randperm(NumTotalMoivePool); % the number of the file is 8
+    PostionShuffleIndex = randperm(NumSelectedMovie);
+
+    actionreapettimes = 3;
     for rp=1:actionreapettimes
         for i=1:MovieFrames
-            for np=1:NumMovie
+            for np=1:NumSelectedMovie
                 Screen('DrawTexture',w,act{InputNameIndex(np)}{i},[],...
-                    [position_presentation(InputNameIndex(np),1)-110 ...
-                    position_presentation(InputNameIndex(np),2)-90 ...
-                    position_presentation(InputNameIndex(np),1)+110 ...
-                    position_presentation(InputNameIndex(np),2)+90]);
+                    [position_presentation(PostionShuffleIndex(np),1)-110 ...
+                    position_presentation(PostionShuffleIndex(np),2)-90 ...
+                    position_presentation(PostionShuffleIndex(np),1)+110 ...
+                    position_presentation(PostionShuffleIndex(np),2)+90]);
             end
             Screen('Flip',w);
         end
@@ -73,7 +74,7 @@ for trial = 1:tiralnum
                     break;
                 end
             else                                   %% bm change
-                [rtimeval,response_codeval,terminateflag] = GetBMtestResponse(w,MovieFrames,act,InputNameIndex,a,b,keysetup,(NumMovie+1) );
+                [rtimeval,response_codeval,terminateflag] = GetBMtestResponse(w,MovieFrames,act,InputNameIndex,a,b,keysetup,(NumSelectedMovie+1) );
                 rtime(trial) = rtimeval;
                 response_code(trial) = response_codeval;
                 if terminateflag==1

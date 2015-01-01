@@ -29,13 +29,14 @@ try
     % coordinates
     cm2pixel = 30; %convert centimeter to pixel
     % Rcircle=6 * cm2pixel; %the visual degress of the radius of the circle is 4 degree, which equal to 4.88 cm (distance to  the screen 70 cm)
-    spaceofstimulus = 7;
+    spaceofstimulus = 9;
     Rcircle=spaceofstimulus * cm2pixel;
     % positions
     n=1;
-    NumSplit=6;
-    PerDegree= (360/NumSplit)/180 * pi;%Convert to Pi
-    for i=1:NumSplit
+    NumSelectedMovie=5;
+    NumTotalMoivePool = 10;
+    PerDegree= (360/NumSelectedMovie)/180 * pi;%Convert to Pi
+    for i=1:NumSelectedMovie
         MovieCntre(n,:) = [a+Rcircle*cos(i*PerDegree)   b+Rcircle*sin(i*PerDegree)];
         n=n+1;
     end
@@ -45,7 +46,7 @@ try
     %input file==================================
     whitepath = 'movie\white\';
     imgformatsuffix = '*.jpg';
-    folderlist = {'leg','jump','run','turn','wave','geo'};
+    folderlist = {'leg','jump','run','turn','wave','geo','shotting','boxing','blue','green'};
     whitefilereglist = {};
     whitefolderlist = {};
     inputimgpath = '';
@@ -71,9 +72,9 @@ try
     ftvparas = tinputparameterfun('walking.txt');
     %End input file================================== 
     
-    % Run experiment================================== 
-     HideCursor;
-     pos = [(a-inssetup.startRect(3)/2) b-inssetup.startRect(4)/2 a+inssetup.startRect(3)/2 b+inssetup.startRect(4)/2];
+    % Run experiment==================================
+    HideCursor;
+    pos = [(a-inssetup.startRect(3)/2) b-inssetup.startRect(4)/2 a+inssetup.startRect(3)/2 b+inssetup.startRect(4)/2];
     
     %练习阶段指导语
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
@@ -91,13 +92,13 @@ try
     WaitSecs(1.5);
     StimulasInterval (w,1,frame_duration);
     RunExperiment(w,wRect,24,frame_duration,...
-    NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
+    NumTotalMoivePool,NumSelectedMovie,MovieCntre,act,ftvparas,inssetup,pos,...
     keysetup,subID,MovieFrames,a,b,12,1,inssetup.practiceOver);
 
     %正式实验
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     [answer_code,rtime,response_code,tasktype] = RunExperiment(w,wRect,length(ftvparas.condition),frame_duration,...
-    NumSplit,MovieCntre,act,ftvparas,inssetup,pos,...
+    NumTotalMoivePool,NumSelectedMovie,MovieCntre,act,ftvparas,inssetup,pos,...
     keysetup,subID,MovieFrames,a,b,48,2,inssetup.over);
 
     %结束实验
