@@ -1,4 +1,4 @@
-function [answer_code,rtime,response_code,tasktype]= RunExperiment(w,wRect,tiralnum,frame_duration,...
+function [answer_code,rtime,rtime_FTV,response_code,tasktype]= RunExperiment(w,wRect,tiralnum,frame_duration,...
     NumTotalMoivePool,NumSelectedMovie,MovieCntre,act,ftvparas,inssetup,pos,keysetup,...
     subID,MovieFrames,a,b,resttrial,experimenttype,image)
 % practice
@@ -57,7 +57,8 @@ for trial = 1:tiralnum
     % show the distance judgement part 
     DisplayPLWalker(w,wRect,ftvparas,ftvparas.distanceArray(ftvparas.TrialType(str2num(ftvparas.condition{trial}(1)))), 3000)
     % get the FTV/W judgement
-    [answer_codeval] = GetFTVJudgementResponse(w,inssetup,pos,keysetup);
+    [answer_codeval,rtime_FTV_val] = GetFTVJudgementResponse(w,inssetup,pos,keysetup);
+    rtime_FTV(trial) = rtime_FTV_val;
     answer_code(trial) = answer_codeval;
     
     clearinputkeyqueue;

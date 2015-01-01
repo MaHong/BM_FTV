@@ -1,4 +1,4 @@
-function [answer_codevalue] = GetFTVJudgementResponse(w,inssetup,pos,keysetup)
+function [answer_codevalue,rtime_FTV_value] = GetFTVJudgementResponse(w,inssetup,pos,keysetup)
 % get the subject's response of the FTV distance judgement part
 start_time=GetSecs;
 while GetSecs - start_time < 2
@@ -9,10 +9,12 @@ while GetSecs - start_time < 2
     WaitSecs(0.001); % delay to prevent CPU hogging
     if keycode(keysetup.back)
         answer_codevalue = 0;
+        rtime_FTV_value = GetSecs - start_time;
         break
     end
     if keycode(keysetup.forward)
         answer_codevalue = 1;
+        rtime_FTV_value = GetSecs - start_time;
         break
     end
 end
