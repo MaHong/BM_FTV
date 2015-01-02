@@ -1,12 +1,12 @@
 a = 10;
 
-inputvediopath = 'C:\Users\Administrator\Desktop\shotting.avi';
+inputvediopath = 'C:\Users\Administrator\Desktop\cheer.avi';
 currentvideo = mmreader(inputvediopath);
 
 numframes = currentvideo.NumberOfFrames;
 vidHeight = 240; 
 vidWidth = 320;
-outputfolder = 'E:\03-实验程序\Mine\github\BM_FTV.v4\movie\white\shotting\';
+outputfolder = 'E:\03-实验程序\Mine\github\BM_FTV.V5\movie\white\cheer\';
 
 currentframe = struct('cdata', zeros(vidHeight, vidWidth, 3, 'double'),...
            'colormap', []);

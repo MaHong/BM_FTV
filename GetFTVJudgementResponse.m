@@ -8,17 +8,19 @@ while GetSecs - start_time < 2
     [keyisdown,secs,keycode] = KbCheck;
     WaitSecs(0.001); % delay to prevent CPU hogging
     if keycode(keysetup.back)
-        answer_codevalue = 0;
         rtime_FTV_value = GetSecs - start_time;
+        answer_codevalue = 0;
         break
     end
     if keycode(keysetup.forward)
-        answer_codevalue = 1;
         rtime_FTV_value = GetSecs - start_time;
+        answer_codevalue = 1;
         break
     end
 end
 if GetSecs - start_time >=2
     answer_codevalue = 3;%被试没有按键
+    rtime_FTV_value = GetSecs - start_time;
 end;
+
 end

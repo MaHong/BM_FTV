@@ -36,8 +36,9 @@ try
     NumSelectedMovie=5;
     NumTotalMoivePool = 10;
     PerDegree= (360/NumSelectedMovie)/180 * pi;%Convert to Pi
+    offsettheta = 0.25;
     for i=1:NumSelectedMovie
-        MovieCntre(n,:) = [a+Rcircle*cos(i*PerDegree)   b+Rcircle*sin(i*PerDegree)];
+        MovieCntre(n,:) = [a+Rcircle*cos(i*PerDegree-offsettheta)   b+Rcircle*sin(i*PerDegree-offsettheta)];
         n=n+1;
     end
     keysetup = tkeyboardsetup;
@@ -46,7 +47,7 @@ try
     %input file==================================
     whitepath = 'movie\white\';
     imgformatsuffix = '*.jpg';
-    folderlist = {'leg','jump','run','turn','wave','geo','shotting','boxing','blue','green'};
+    folderlist = {'leg','jump','run','turn','wave','geo','shotting','boxing','refuse','cheer'};
     whitefilereglist = {};
     whitefolderlist = {};
     inputimgpath = '';
@@ -79,14 +80,14 @@ try
     %Á·Ï°½×¶ÎÖ¸µ¼Óï
     ShowInstruction(w,inssetup.start,inssetup.base,pos, mod(subID,2)==1);
     
-    %Ñ§Ï°FTV/FA
-    DisplayPLWalker(w,wRect,ftvparas,1,3000);
-    PushImages(w,pos,inssetup.FW);
-    ResponseforPLJudgment(keysetup.back);
-    DisplayPLWalker(w,wRect,ftvparas,20,4000);
-    PushImages(w,pos,inssetup.FTV);
-    ResponseforPLJudgment(keysetup.forward);
-    
+%     %Ñ§Ï°FTV/FA
+%     DisplayPLWalker(w,wRect,ftvparas,1,3000);
+%     PushImages(w,pos,inssetup.FW);
+%     ResponseforPLJudgment(keysetup.back);
+%     DisplayPLWalker(w,wRect,ftvparas,20,4000);
+%     PushImages(w,pos,inssetup.FTV);
+%     ResponseforPLJudgment(keysetup.forward);
+
     %Á·Ï°½×¶Î
     PushImages(w,pos,inssetup.practiceStart);
     WaitSecs(1.5);
